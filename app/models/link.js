@@ -12,8 +12,11 @@ var Link = db.Model.extend({
     return this.hasMany(Click);
   },
   initialize: function() {
+    
     this.on('creating', function(model, attrs, options) {
+      console.log('link.js on creating');
       var shasum = crypto.createHash('sha1');
+      //console.log(shasum);
       shasum.update(model.get('url'));
       model.set('code', shasum.digest('hex').slice(0, 5));
     });
