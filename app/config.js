@@ -49,6 +49,18 @@ db.knex.schema.hasTable('users').then(function(exists) {
     });
   }
 });
+db.knex.schema.hasTable('sessions').then(function(exists) {
+  if (!exists) {
+    db.knex.schema.createTable('sessions', function(session) {
+      session.string('sessionId', 64);     
+      session.string('username', 20);
+      session.foreign('username').references('users.username');
+    }).then(function (table) {
+      console.log('Created Table', table);
+    });
+  }
+
+});
 /************************************************************/
 // Add additional schema definitions below
 /************************************************************/
