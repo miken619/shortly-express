@@ -3,6 +3,7 @@ const util = require('./lib/utility');
 const partials = require('express-partials');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const bcrypt = require('bcrypt-nodejs');
 
 const db = require('./app/config');
 const Users = require('./app/collections/users');
@@ -74,10 +75,19 @@ function(req, res) {
   });
 });
 app.post('/signup', function(req, res) {
-  let username = req.body.username;
-  
+  //let username = req.body.username;
+  //console.log(req.body, 'signup body');
   //console.log(db.knex('users'));
-  console.log(db.knex('urls').where('visits', '>=', '1').del());
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(req.body.password, salt, null, function(err, hash) {
+      new User({username: req.body.username, password: hash}).save();
+      console.log(db.knex('users').where('username', '=', req.body.username));
+        // Store hash in your password DB.
+        
+    });
+  });
+  //new User(req.body);
+  //db.knex('users').where('username', '=', 'aa').then(function (res) { console.log('this is a test ', res); });
   //User.query('where', 'username', '=', username).fetch().then(res => console.log(res, 'res after post'));
 
   

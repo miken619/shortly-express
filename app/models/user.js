@@ -6,12 +6,11 @@ var promise = require('bluebird');
 
 var User = db.Model.extend({
   tableName: 'users',
-  hasTimestamps: true,
-  initialize: function(obj) {
+  //hasTimestamps: true,
+  initialize: function() {
+
     
-    console.log(obj);
-    //console.log(db.knex.schema.hasTable('users'), 'table name');
-    //console.log(db.get('tableName'));
+
   }
 });
 
